@@ -1,0 +1,11 @@
+{
+  "name": "react-ts-monorepo",
+  "private": true,
+  "packageManager": "yarn@3.2.3",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^5.5.1"
+  }
+}

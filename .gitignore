@@ -1,0 +1,7 @@
+# package manager
+node_modules/
+.yarn
+.pnp*
+
+# IDE
+.idea
