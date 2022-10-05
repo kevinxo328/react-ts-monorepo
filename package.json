@@ -12,6 +12,7 @@
     "typescript": "^4.8.3"
   },
   "scripts": {
-    "dev:ui": "cd ./packages/ui && yarn run start"
+    "dev:ui": "cd ./packages/ui && yarn run start",
+    "dev:mercari-scraper": "cd ./sites/mercari-scraper && yarn run dev"
   }
 }
