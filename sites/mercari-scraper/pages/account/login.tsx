@@ -36,9 +36,12 @@ const LoginForm = () => {
           data: { data: res },
         } = await AuthApi.login(values);
 
-        console.log(res);
+        localStorage.setItem("accessToken", res.access_token);
+        localStorage.setItem("refresh_token", res.refresh_token);
+        localStorage.setItem("expires_in", res.expires_in);
       } catch (err) {
-        console.warn(err);
+        // @ts-ignore
+        console.warn(err.response.data);
       } finally {
         setIsLoading(false);
       }
