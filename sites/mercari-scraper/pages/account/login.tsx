@@ -4,6 +4,8 @@ import BaseLabelTextField from "../../components/Base/BaseLabelTextField";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthApi from "../../apis/auth";
+import { useState } from "react";
+import { LoadingButton } from "@mui/lab";
 
 const validationSchema = yup.object({
   username: yup
@@ -19,6 +21,8 @@ const validationSchema = yup.object({
 });
 
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -26,8 +30,18 @@ const LoginForm = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      const res = await AuthApi.login(values);
-      console.log(res);
+      try {
+        setIsLoading(true);
+        const {
+          data: { data: res },
+        } = await AuthApi.login(values);
+
+        console.log(res);
+      } catch (err) {
+        console.warn(err);
+      } finally {
+        setIsLoading(false);
+      }
     },
   });
 
@@ -43,6 +57,7 @@ const LoginForm = () => {
         error={formik.touched.username && !!formik.errors.username}
         helperText={formik.touched.username && formik.errors.username}
         {...formik.getFieldProps("username")}
+        disabled={isLoading}
       />
       <BaseLabelTextField
         id={"password"}
@@ -52,10 +67,17 @@ const LoginForm = () => {
         error={formik.touched.password && !!formik.errors.password}
         helperText={formik.touched.password && formik.errors.password}
         {...formik.getFieldProps("password")}
+        disabled={isLoading}
       />
-      <Button type={"submit"} fullWidth>
+      <LoadingButton
+        type={"submit"}
+        fullWidth
+        loading={isLoading}
+        color={"primary"}
+        variant={"contained"}
+      >
         登入
-      </Button>
+      </LoadingButton>
     </form>
   );
 };
@@ -63,7 +85,7 @@ const LoginForm = () => {
 const Login: NextPage = () => {
   return (
     <div className={"flex w-full h-screen justify-center items-center"}>
-      <Box className={'w-[400px]'}>
+      <Box className={"w-[400px]"}>
         <LoginForm />
       </Box>
     </div>
